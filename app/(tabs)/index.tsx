@@ -6,12 +6,12 @@ import {
   Image, 
   TouchableOpacity, 
   RefreshControl,
-  Dimensions 
+  Dimensions,
+  Modal
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { Heart, MessageCircle, Share, Flame, CircleCheck as CheckCircle, Trophy } from 'lucide-react-native';
+import { Heart, MessageCircle, Share, Flame, Trophy, X } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -34,7 +34,7 @@ interface Post {
   caption: string;
   time: string;
   isLiked: boolean;
-  tasksCompleted?: number; // For celebration posts
+  tasksCompleted?: number;
 }
 
 const mockPosts: Post[] = [
@@ -74,7 +74,7 @@ const mockPosts: Post[] = [
     image: 'https://images.pexels.com/photos/1068523/pexels-photo-1068523.jpeg?auto=compress&cs=tinysrgb&w=800',
     likes: 47,
     comments: 15,
-    caption: '🎉 Jordan finished their to-do list for the day, wish them congratulations!',
+    caption: 'Jordan finished their to-do list for the day, wish them congratulations! 🎉',
     time: '3h ago',
     isLiked: true,
     tasksCompleted: 6
@@ -124,6 +124,7 @@ const mockPosts: Post[] = [
 export default function FeedScreen() {
   const [posts, setPosts] = useState(mockPosts);
   const [refreshing, setRefreshing] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -149,15 +150,21 @@ export default function FeedScreen() {
     }
   };
 
+  const openPostModal = (post: Post) => {
+    setSelectedPost(post);
+  };
+
+  const closePostModal = () => {
+    setSelectedPost(null);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <Text style={styles.headerTitle}>Today</Text>
-          <View style={styles.streakContainer}>
-            <Flame size={16} color="#8B5CF6" />
-            <Text style={styles.streakText}>5</Text>
-          </View>
+        <Text style={styles.headerTitle}>Today</Text>
+        <View style={styles.streakContainer}>
+          <Flame size={16} color="#8B5CF6" />
+          <Text style={styles.streakText}>5</Text>
         </View>
       </View>
 
@@ -170,14 +177,18 @@ export default function FeedScreen() {
       >
         <View style={styles.feedContainer}>
           {posts.map((post) => (
-            <View key={post.id} style={[
-              styles.postCard,
-              post.type === 'celebration' && styles.celebrationCard
-            ]}>
+            <TouchableOpacity
+              key={post.id}
+              style={[
+                styles.postCard,
+                post.type === 'celebration' && styles.celebrationCard
+              ]}
+              onPress={() => openPostModal(post)}
+              activeOpacity={0.95}
+            >
               {post.type === 'celebration' && (
-                <View style={styles.celebrationBanner}>
-                  <Trophy size={16} color="#F59E0B" />
-                  <Text style={styles.celebrationBannerText}>Perfect Day</Text>
+                <View style={styles.celebrationBadge}>
+                  <Trophy size={12} color="#F59E0B" />
                 </View>
               )}
 
@@ -185,48 +196,92 @@ export default function FeedScreen() {
                 <Image source={{ uri: post.user.avatar }} style={styles.avatar} />
                 <View style={styles.userInfo}>
                   <Text style={styles.userName}>{post.user.name}</Text>
-                  <View style={styles.taskRow}>
-                    <Text style={styles.taskTitle}>{post.task.title}</Text>
-                    <View style={[styles.difficultyDot, { backgroundColor: getDifficultyColor(post.task.difficulty) }]} />
-                  </View>
+                  <Text style={styles.taskTitle}>{post.task.title}</Text>
                 </View>
-                <Text style={styles.timeStamp}>{post.time}</Text>
+                <View style={[styles.difficultyDot, { backgroundColor: getDifficultyColor(post.task.difficulty) }]} />
               </View>
 
               <Image source={{ uri: post.image }} style={styles.postImage} />
 
-              <View style={styles.postFooter}>
-                <Text style={styles.caption}>{post.caption}</Text>
-                
-                <View style={styles.actions}>
-                  <TouchableOpacity 
-                    style={styles.actionButton}
-                    onPress={() => toggleLike(post.id)}
-                  >
-                    <Heart 
-                      size={18} 
-                      color={post.isLiked ? '#EF4444' : '#9CA3AF'} 
-                      fill={post.isLiked ? '#EF4444' : 'none'}
-                    />
-                    <Text style={[styles.actionText, post.isLiked && styles.likedText]}>
-                      {post.likes}
-                    </Text>
-                  </TouchableOpacity>
-                  
-                  <TouchableOpacity style={styles.actionButton}>
-                    <MessageCircle size={18} color="#9CA3AF" />
-                    <Text style={styles.actionText}>{post.comments}</Text>
-                  </TouchableOpacity>
-                  
-                  <TouchableOpacity style={styles.shareButton}>
-                    <Share size={16} color="#9CA3AF" />
-                  </TouchableOpacity>
-                </View>
+              <View style={styles.captionContainer}>
+                <Text style={styles.caption} numberOfLines={2}>
+                  {post.caption}
+                </Text>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
+
+      {/* Post Detail Modal */}
+      <Modal
+        visible={!!selectedPost}
+        animationType="slide"
+        presentationStyle="pageSheet"
+      >
+        {selectedPost && (
+          <SafeAreaView style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
+              <TouchableOpacity onPress={closePostModal}>
+                <X size={24} color="#6B7280" />
+              </TouchableOpacity>
+              <Text style={styles.modalTime}>{selectedPost.time}</Text>
+            </View>
+
+            <ScrollView style={styles.modalContent}>
+              <View style={styles.modalPostHeader}>
+                <Image source={{ uri: selectedPost.user.avatar }} style={styles.modalAvatar} />
+                <View style={styles.modalUserInfo}>
+                  <Text style={styles.modalUserName}>{selectedPost.user.name}</Text>
+                  <Text style={styles.modalUsername}>{selectedPost.user.username}</Text>
+                  <View style={styles.modalTaskRow}>
+                    <Text style={styles.modalTaskTitle}>{selectedPost.task.title}</Text>
+                    <View style={[styles.modalDifficultyBadge, { backgroundColor: getDifficultyColor(selectedPost.task.difficulty) }]}>
+                      <Text style={styles.modalDifficultyText}>{selectedPost.task.difficulty}</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
+              <Image source={{ uri: selectedPost.image }} style={styles.modalImage} />
+
+              <View style={styles.modalFooter}>
+                <Text style={styles.modalCaption}>{selectedPost.caption}</Text>
+
+                <View style={styles.modalActions}>
+                  <TouchableOpacity 
+                    style={styles.modalActionButton}
+                    onPress={() => toggleLike(selectedPost.id)}
+                  >
+                    <Heart 
+                      size={24} 
+                      color={selectedPost.isLiked ? '#EF4444' : '#6B7280'} 
+                      fill={selectedPost.isLiked ? '#EF4444' : 'none'}
+                    />
+                    <Text style={[styles.modalActionText, selectedPost.isLiked && styles.modalLikedText]}>
+                      {selectedPost.likes}
+                    </Text>
+                  </TouchableOpacity>
+                  
+                  <TouchableOpacity style={styles.modalActionButton}>
+                    <MessageCircle size={24} color="#6B7280" />
+                    <Text style={styles.modalActionText}>{selectedPost.comments}</Text>
+                  </TouchableOpacity>
+                  
+                  <TouchableOpacity style={styles.modalShareButton}>
+                    <Share size={20} color="#6B7280" />
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.commentsSection}>
+                  <Text style={styles.commentsTitle}>Comments</Text>
+                  <Text style={styles.commentsPlaceholder}>No comments yet. Be the first to comment!</Text>
+                </View>
+              </View>
+            </ScrollView>
+          </SafeAreaView>
+        )}
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -240,13 +295,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
-  },
-  headerContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
   },
   headerTitle: {
     fontSize: 28,
@@ -272,38 +325,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   feedContainer: {
-    paddingVertical: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
   },
   postCard: {
     backgroundColor: '#FFFFFF',
-    marginHorizontal: 16,
-    marginVertical: 6,
-    borderRadius: 12,
+    marginBottom: 16,
+    borderRadius: 16,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
+    position: 'relative',
   },
   celebrationCard: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#FEF3C7',
   },
-  celebrationBanner: {
+  celebrationBadge: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
     backgroundColor: '#FEF3C7',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-  },
-  celebrationBannerText: {
-    fontSize: 12,
-    fontFamily: 'Inter-SemiBold',
-    color: '#D97706',
-    marginLeft: 6,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    borderRadius: 12,
+    padding: 6,
+    zIndex: 1,
   },
   postHeader: {
     flexDirection: 'row',
@@ -312,45 +355,35 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   avatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     marginRight: 12,
   },
   userInfo: {
     flex: 1,
   },
   userName: {
-    fontSize: 15,
+    fontSize: 14,
     fontFamily: 'Inter-SemiBold',
     color: '#1F2937',
     marginBottom: 2,
   },
-  taskRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   taskTitle: {
-    fontSize: 13,
+    fontSize: 12,
     fontFamily: 'Inter-Medium',
     color: '#6B7280',
-    marginRight: 8,
   },
   difficultyDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-  },
-  timeStamp: {
-    fontSize: 12,
-    fontFamily: 'Inter-Regular',
-    color: '#9CA3AF',
+    width: 8,
+    height: 8,
+    borderRadius: 4,
   },
   postImage: {
     width: '100%',
-    height: 280,
+    height: 240,
   },
-  postFooter: {
+  captionContainer: {
     padding: 16,
     paddingTop: 12,
   },
@@ -359,27 +392,131 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Regular',
     color: '#374151',
     lineHeight: 20,
-    marginBottom: 12,
   },
-  actions: {
+  
+  // Modal Styles
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  modalHeader: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
   },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 20,
-  },
-  actionText: {
-    fontSize: 13,
+  modalTime: {
+    fontSize: 14,
     fontFamily: 'Inter-Medium',
-    color: '#9CA3AF',
-    marginLeft: 6,
+    color: '#6B7280',
   },
-  likedText: {
+  modalContent: {
+    flex: 1,
+  },
+  modalPostHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+    paddingBottom: 16,
+  },
+  modalAvatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    marginRight: 16,
+  },
+  modalUserInfo: {
+    flex: 1,
+  },
+  modalUserName: {
+    fontSize: 18,
+    fontFamily: 'Inter-Bold',
+    color: '#1F2937',
+    marginBottom: 2,
+  },
+  modalUsername: {
+    fontSize: 14,
+    fontFamily: 'Inter-Medium',
+    color: '#6B7280',
+    marginBottom: 8,
+  },
+  modalTaskRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  modalTaskTitle: {
+    fontSize: 14,
+    fontFamily: 'Inter-SemiBold',
+    color: '#374151',
+    marginRight: 12,
+  },
+  modalDifficultyBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  modalDifficultyText: {
+    fontSize: 12,
+    fontFamily: 'Inter-Medium',
+    color: '#FFFFFF',
+  },
+  modalImage: {
+    width: '100%',
+    height: 320,
+  },
+  modalFooter: {
+    padding: 20,
+  },
+  modalCaption: {
+    fontSize: 16,
+    fontFamily: 'Inter-Regular',
+    color: '#374151',
+    lineHeight: 24,
+    marginBottom: 20,
+  },
+  modalActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
+    marginBottom: 20,
+  },
+  modalActionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 32,
+  },
+  modalActionText: {
+    fontSize: 16,
+    fontFamily: 'Inter-SemiBold',
+    color: '#6B7280',
+    marginLeft: 8,
+  },
+  modalLikedText: {
     color: '#EF4444',
   },
-  shareButton: {
+  modalShareButton: {
     marginLeft: 'auto',
+  },
+  commentsSection: {
+    marginTop: 8,
+  },
+  commentsTitle: {
+    fontSize: 18,
+    fontFamily: 'Inter-Bold',
+    color: '#1F2937',
+    marginBottom: 16,
+  },
+  commentsPlaceholder: {
+    fontSize: 14,
+    fontFamily: 'Inter-Regular',
+    color: '#9CA3AF',
+    textAlign: 'center',
+    fontStyle: 'italic',
+    paddingVertical: 20,
   },
 });
