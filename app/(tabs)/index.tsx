@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { Heart, MessageCircle, Share, MoveHorizontal as MoreHorizontal, Flame } from 'lucide-react-native';
+import { Heart, MessageCircle, Share, Flame, CheckCircle, Trophy } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -151,91 +151,81 @@ export default function FeedScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient
-        colors={['#8B5CF6', '#3B82F6']}
-        style={styles.header}
-      >
+      <View style={styles.header}>
         <View style={styles.headerContent}>
-          <Text style={styles.headerTitle}>Today's Feed</Text>
+          <Text style={styles.headerTitle}>Today</Text>
           <View style={styles.streakContainer}>
-            <Flame size={20} color="#FFF" />
+            <Flame size={16} color="#8B5CF6" />
             <Text style={styles.streakText}>5</Text>
           </View>
         </View>
-      </LinearGradient>
+      </View>
 
       <ScrollView
         style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        {posts.map((post) => (
-          <View key={post.id} style={styles.postCard}>
-            <View style={styles.postHeader}>
-              <View style={styles.userInfo}>
+        <View style={styles.feedContainer}>
+          {posts.map((post) => (
+            <View key={post.id} style={[
+              styles.postCard,
+              post.type === 'celebration' && styles.celebrationCard
+            ]}>
+              {post.type === 'celebration' && (
+                <View style={styles.celebrationBanner}>
+                  <Trophy size={16} color="#F59E0B" />
+                  <Text style={styles.celebrationBannerText}>Perfect Day</Text>
+                </View>
+              )}
+
+              <View style={styles.postHeader}>
                 <Image source={{ uri: post.user.avatar }} style={styles.avatar} />
-                <View>
+                <View style={styles.userInfo}>
                   <Text style={styles.userName}>{post.user.name}</Text>
-                  <Text style={styles.userHandle}>{post.user.username}</Text>
-                </View>
-              </View>
-              <TouchableOpacity>
-                <MoreHorizontal size={20} color="#6B7280" />
-              </TouchableOpacity>
-            </View>
-
-            {post.type === 'celebration' ? (
-              <View style={styles.celebrationInfo}>
-                <View style={styles.celebrationHeader}>
-                  <Text style={styles.celebrationTitle}>🎉 All Tasks Completed!</Text>
-                  <View style={styles.celebrationBadge}>
-                    <Text style={styles.celebrationBadgeText}>{post.tasksCompleted} tasks</Text>
+                  <View style={styles.taskRow}>
+                    <Text style={styles.taskTitle}>{post.task.title}</Text>
+                    <View style={[styles.difficultyDot, { backgroundColor: getDifficultyColor(post.task.difficulty) }]} />
                   </View>
                 </View>
-                <Text style={styles.celebrationSubtitle}>Perfect day achievement unlocked!</Text>
+                <Text style={styles.timeStamp}>{post.time}</Text>
               </View>
-            ) : (
-              <View style={styles.taskInfo}>
-                <View style={styles.taskHeader}>
-                  <Text style={styles.taskTitle}>{post.task.title}</Text>
-                  <View style={[styles.difficultyBadge, { backgroundColor: getDifficultyColor(post.task.difficulty) }]}>
-                    <Text style={styles.difficultyText}>{post.task.difficulty}</Text>
-                  </View>
+
+              <Image source={{ uri: post.image }} style={styles.postImage} />
+
+              <View style={styles.postFooter}>
+                <Text style={styles.caption}>{post.caption}</Text>
+                
+                <View style={styles.actions}>
+                  <TouchableOpacity 
+                    style={styles.actionButton}
+                    onPress={() => toggleLike(post.id)}
+                  >
+                    <Heart 
+                      size={18} 
+                      color={post.isLiked ? '#EF4444' : '#9CA3AF'} 
+                      fill={post.isLiked ? '#EF4444' : 'none'}
+                    />
+                    <Text style={[styles.actionText, post.isLiked && styles.likedText]}>
+                      {post.likes}
+                    </Text>
+                  </TouchableOpacity>
+                  
+                  <TouchableOpacity style={styles.actionButton}>
+                    <MessageCircle size={18} color="#9CA3AF" />
+                    <Text style={styles.actionText}>{post.comments}</Text>
+                  </TouchableOpacity>
+                  
+                  <TouchableOpacity style={styles.shareButton}>
+                    <Share size={16} color="#9CA3AF" />
+                  </TouchableOpacity>
                 </View>
-                <Text style={styles.taskCategory}>{post.task.category}</Text>
               </View>
-            )}
-
-            <Image source={{ uri: post.image }} style={styles.postImage} />
-
-            <View style={styles.postActions}>
-              <TouchableOpacity 
-                style={styles.actionButton}
-                onPress={() => toggleLike(post.id)}
-              >
-                <Heart 
-                  size={24} 
-                  color={post.isLiked ? '#EF4444' : '#6B7280'} 
-                  fill={post.isLiked ? '#EF4444' : 'none'}
-                />
-                <Text style={styles.actionText}>{post.likes}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.actionButton}>
-                <MessageCircle size={24} color="#6B7280" />
-                <Text style={styles.actionText}>{post.comments}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.actionButton}>
-                <Share size={24} color="#6B7280" />
-              </TouchableOpacity>
             </View>
-
-            <View style={styles.postContent}>
-              <Text style={styles.caption}>{post.caption}</Text>
-              <Text style={styles.timeStamp}>{post.time}</Text>
-            </View>
-          </View>
-        ))}
+          ))}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -244,11 +234,14 @@ export default function FeedScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#FAFAFA',
   },
   header: {
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
   },
   headerContent: {
     flexDirection: 'row',
@@ -256,138 +249,121 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontFamily: 'Inter-Bold',
-    color: '#FFFFFF',
+    color: '#1F2937',
+    letterSpacing: -0.5,
   },
   streakContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: '#F3F4F6',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
+    borderRadius: 16,
   },
   streakText: {
-    fontSize: 16,
-    fontFamily: 'Inter-Bold',
-    color: '#FFFFFF',
+    fontSize: 14,
+    fontFamily: 'Inter-SemiBold',
+    color: '#8B5CF6',
     marginLeft: 4,
   },
   scrollView: {
     flex: 1,
   },
+  feedContainer: {
+    paddingVertical: 8,
+  },
   postCard: {
     backgroundColor: '#FFFFFF',
     marginHorizontal: 16,
-    marginVertical: 8,
-    borderRadius: 16,
+    marginVertical: 6,
+    borderRadius: 12,
+    overflow: 'hidden',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  celebrationCard: {
+    borderWidth: 1,
+    borderColor: '#FEF3C7',
+  },
+  celebrationBanner: {
+    backgroundColor: '#FEF3C7',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+  },
+  celebrationBannerText: {
+    fontSize: 12,
+    fontFamily: 'Inter-SemiBold',
+    color: '#D97706',
+    marginLeft: 6,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   postHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-  },
-  userInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 12,
-  },
-  userName: {
-    fontSize: 16,
-    fontFamily: 'Inter-SemiBold',
-    color: '#1F2937',
-  },
-  userHandle: {
-    fontSize: 14,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-  },
-  taskInfo: {
-    paddingHorizontal: 16,
     paddingBottom: 12,
   },
-  taskHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginRight: 12,
   },
-  taskTitle: {
-    fontSize: 18,
+  userInfo: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: 15,
     fontFamily: 'Inter-SemiBold',
     color: '#1F2937',
+    marginBottom: 2,
   },
-  difficultyBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  difficultyText: {
-    fontSize: 12,
-    fontFamily: 'Inter-Medium',
-    color: '#FFFFFF',
-  },
-  taskCategory: {
-    fontSize: 14,
-    fontFamily: 'Inter-Medium',
-    color: '#8B5CF6',
-  },
-  celebrationInfo: {
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    backgroundColor: '#FEF3C7',
-    marginHorizontal: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  celebrationHeader: {
+  taskRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 4,
   },
-  celebrationTitle: {
-    fontSize: 18,
-    fontFamily: 'Inter-Bold',
-    color: '#D97706',
+  taskTitle: {
+    fontSize: 13,
+    fontFamily: 'Inter-Medium',
+    color: '#6B7280',
+    marginRight: 8,
   },
-  celebrationBadge: {
-    backgroundColor: '#F59E0B',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
+  difficultyDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   },
-  celebrationBadgeText: {
+  timeStamp: {
     fontSize: 12,
-    fontFamily: 'Inter-Medium',
-    color: '#FFFFFF',
-  },
-  celebrationSubtitle: {
-    fontSize: 14,
-    fontFamily: 'Inter-Medium',
-    color: '#92400E',
+    fontFamily: 'Inter-Regular',
+    color: '#9CA3AF',
   },
   postImage: {
     width: '100%',
-    height: 300,
+    height: 280,
   },
-  postActions: {
+  postFooter: {
+    padding: 16,
+    paddingTop: 12,
+  },
+  caption: {
+    fontSize: 14,
+    fontFamily: 'Inter-Regular',
+    color: '#374151',
+    lineHeight: 20,
+    marginBottom: 12,
+  },
+  actions: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
   },
   actionButton: {
     flexDirection: 'row',
@@ -395,25 +371,15 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   actionText: {
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: 'Inter-Medium',
-    color: '#6B7280',
+    color: '#9CA3AF',
     marginLeft: 6,
   },
-  postContent: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
+  likedText: {
+    color: '#EF4444',
   },
-  caption: {
-    fontSize: 14,
-    fontFamily: 'Inter-Regular',
-    color: '#1F2937',
-    lineHeight: 20,
-    marginBottom: 8,
-  },
-  timeStamp: {
-    fontSize: 12,
-    fontFamily: 'Inter-Regular',
-    color: '#9CA3AF',
+  shareButton: {
+    marginLeft: 'auto',
   },
 });
