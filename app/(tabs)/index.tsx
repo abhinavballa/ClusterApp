@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { Heart, MessageCircle, Share, Flame, CheckCircle, Trophy } from 'lucide-react-native';
+import { Heart, MessageCircle, Share, Flame, CircleCheck as CheckCircle, Trophy } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
 
