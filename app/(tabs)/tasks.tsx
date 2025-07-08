@@ -83,11 +83,29 @@ export default function TasksScreen() {
     );
     setTasks(updatedTasks);
 
+    // Check if all tasks are now completed
+    const allCompleted = updatedTasks.every(task => task.completed);
+    const wasAllCompleted = tasks.every(task => task.completed);
+    
+    if (allCompleted && !wasAllCompleted && updatedTasks.length > 0) {
+      // User just completed all tasks - create celebration post
+      createCelebrationPost();
+    }
+
     // Check if any task is completed today (simulating the rule)
     const hasCompletedTask = updatedTasks.some(task => task.completed);
     if (hasCompletedTask) {
       setCanAddTasks(false);
     }
+  };
+
+  const createCelebrationPost = () => {
+    // In a real app, this would make an API call to create the celebration post
+    Alert.alert(
+      '🎉 Congratulations!',
+      'You\'ve completed all your tasks for today! Your achievement has been shared with your friends.',
+      [{ text: 'Amazing!', style: 'default' }]
+    );
   };
 
   const addTask = () => {

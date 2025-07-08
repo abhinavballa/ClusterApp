@@ -17,6 +17,7 @@ const { width } = Dimensions.get('window');
 
 interface Post {
   id: string;
+  type: 'task' | 'celebration';
   user: {
     name: string;
     avatar: string;
@@ -33,11 +34,13 @@ interface Post {
   caption: string;
   time: string;
   isLiked: boolean;
+  tasksCompleted?: number; // For celebration posts
 }
 
 const mockPosts: Post[] = [
   {
     id: '1',
+    type: 'task',
     user: {
       name: 'Alex Johnson',
       avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400',
@@ -56,7 +59,29 @@ const mockPosts: Post[] = [
     isLiked: false
   },
   {
+    id: '1.5',
+    type: 'celebration',
+    user: {
+      name: 'Jordan Smith',
+      avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400',
+      username: '@jordansmith'
+    },
+    task: {
+      title: 'All Tasks Completed',
+      category: 'Achievement',
+      difficulty: 'Large'
+    },
+    image: 'https://images.pexels.com/photos/1068523/pexels-photo-1068523.jpeg?auto=compress&cs=tinysrgb&w=800',
+    likes: 47,
+    comments: 15,
+    caption: '🎉 Jordan finished their to-do list for the day, wish them congratulations!',
+    time: '3h ago',
+    isLiked: true,
+    tasksCompleted: 6
+  },
+  {
     id: '2',
+    type: 'task',
     user: {
       name: 'Sarah Chen',
       avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400',
@@ -76,6 +101,7 @@ const mockPosts: Post[] = [
   },
   {
     id: '3',
+    type: 'task',
     user: {
       name: 'Marcus Rivera',
       avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400',
@@ -159,15 +185,27 @@ export default function FeedScreen() {
               </TouchableOpacity>
             </View>
 
-            <View style={styles.taskInfo}>
-              <View style={styles.taskHeader}>
-                <Text style={styles.taskTitle}>{post.task.title}</Text>
-                <View style={[styles.difficultyBadge, { backgroundColor: getDifficultyColor(post.task.difficulty) }]}>
-                  <Text style={styles.difficultyText}>{post.task.difficulty}</Text>
+            {post.type === 'celebration' ? (
+              <View style={styles.celebrationInfo}>
+                <View style={styles.celebrationHeader}>
+                  <Text style={styles.celebrationTitle}>🎉 All Tasks Completed!</Text>
+                  <View style={styles.celebrationBadge}>
+                    <Text style={styles.celebrationBadgeText}>{post.tasksCompleted} tasks</Text>
+                  </View>
                 </View>
+                <Text style={styles.celebrationSubtitle}>Perfect day achievement unlocked!</Text>
               </View>
-              <Text style={styles.taskCategory}>{post.task.category}</Text>
-            </View>
+            ) : (
+              <View style={styles.taskInfo}>
+                <View style={styles.taskHeader}>
+                  <Text style={styles.taskTitle}>{post.task.title}</Text>
+                  <View style={[styles.difficultyBadge, { backgroundColor: getDifficultyColor(post.task.difficulty) }]}>
+                    <Text style={styles.difficultyText}>{post.task.difficulty}</Text>
+                  </View>
+                </View>
+                <Text style={styles.taskCategory}>{post.task.category}</Text>
+              </View>
+            )}
 
             <Image source={{ uri: post.image }} style={styles.postImage} />
 
@@ -305,6 +343,41 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Inter-Medium',
     color: '#8B5CF6',
+  },
+  celebrationInfo: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    backgroundColor: '#FEF3C7',
+    marginHorizontal: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+  },
+  celebrationHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  celebrationTitle: {
+    fontSize: 18,
+    fontFamily: 'Inter-Bold',
+    color: '#D97706',
+  },
+  celebrationBadge: {
+    backgroundColor: '#F59E0B',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  celebrationBadgeText: {
+    fontSize: 12,
+    fontFamily: 'Inter-Medium',
+    color: '#FFFFFF',
+  },
+  celebrationSubtitle: {
+    fontSize: 14,
+    fontFamily: 'Inter-Medium',
+    color: '#92400E',
   },
   postImage: {
     width: '100%',
