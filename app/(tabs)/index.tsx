@@ -177,38 +177,45 @@ export default function FeedScreen() {
       >
         <View style={styles.feedContainer}>
           {posts.map((post) => (
-            <TouchableOpacity
-              key={post.id}
-              style={[
-                styles.postCard,
-                post.type === 'celebration' && styles.celebrationCard
-              ]}
-              onPress={() => openPostModal(post)}
-              activeOpacity={0.95}
-            >
-              {post.type === 'celebration' && (
-                <View style={styles.celebrationBadge}>
-                  <Trophy size={12} color="#F59E0B" />
-                </View>
+            <View key={post.id}>
+              {post.type === 'celebration' ? (
+                <TouchableOpacity
+                  style={styles.celebrationCard}
+                  onPress={() => openPostModal(post)}
+                  activeOpacity={0.9}
+                >
+                  <View style={styles.celebrationIcon}>
+                    <Trophy size={16} color="#F59E0B" />
+                  </View>
+                  <Text style={styles.celebrationText}>
+                    <Text style={styles.celebrationName}>{post.user.name}</Text> finished their to-do list for the day, wish them congratulations!
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.postCard}
+                  onPress={() => openPostModal(post)}
+                  activeOpacity={0.95}
+                >
+                  <View style={styles.postHeader}>
+                    <Image source={{ uri: post.user.avatar }} style={styles.avatar} />
+                    <View style={styles.userInfo}>
+                      <Text style={styles.userName}>{post.user.name}</Text>
+                      <Text style={styles.taskTitle}>{post.task.title}</Text>
+                    </View>
+                    <View style={[styles.difficultyDot, { backgroundColor: getDifficultyColor(post.task.difficulty) }]} />
+                  </View>
+
+                  <Image source={{ uri: post.image }} style={styles.postImage} />
+
+                  <View style={styles.captionContainer}>
+                    <Text style={styles.caption} numberOfLines={2}>
+                      {post.caption}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               )}
-
-              <View style={styles.postHeader}>
-                <Image source={{ uri: post.user.avatar }} style={styles.avatar} />
-                <View style={styles.userInfo}>
-                  <Text style={styles.userName}>{post.user.name}</Text>
-                  <Text style={styles.taskTitle}>{post.task.title}</Text>
-                </View>
-                <View style={[styles.difficultyDot, { backgroundColor: getDifficultyColor(post.task.difficulty) }]} />
-              </View>
-
-              <Image source={{ uri: post.image }} style={styles.postImage} />
-
-              <View style={styles.captionContainer}>
-                <Text style={styles.caption} numberOfLines={2}>
-                  {post.caption}
-                </Text>
-              </View>
-            </TouchableOpacity>
+            </View>
           ))}
         </View>
       </ScrollView>
@@ -333,20 +340,34 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 16,
     overflow: 'hidden',
-    position: 'relative',
   },
   celebrationCard: {
-    borderWidth: 2,
-    borderColor: '#FEF3C7',
-  },
-  celebrationBadge: {
-    position: 'absolute',
-    top: 12,
-    right: 12,
     backgroundColor: '#FEF3C7',
+    marginBottom: 16,
     borderRadius: 12,
-    padding: 6,
-    zIndex: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#FDE68A',
+  },
+  celebrationIcon: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 8,
+    marginRight: 12,
+  },
+  celebrationText: {
+    flex: 1,
+    fontSize: 14,
+    fontFamily: 'Inter-Medium',
+    color: '#92400E',
+    lineHeight: 20,
+  },
+  celebrationName: {
+    fontFamily: 'Inter-SemiBold',
+    color: '#78350F',
   },
   postHeader: {
     flexDirection: 'row',
