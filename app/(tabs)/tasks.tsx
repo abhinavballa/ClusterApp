@@ -209,8 +209,7 @@ export default function TasksScreen() {
                   ) : (
                     <Square size={24} color="#6B7280" />
                   )}
-                </TouchableOpacity>
-                <View style={styles.taskInfo}>
+                </TouchableOpacity><View style={styles.taskInfo}>
                   <Text style={[
                     styles.taskTitle,
                     task.completed && styles.completedTask
@@ -227,15 +226,13 @@ export default function TasksScreen() {
                       <Text style={styles.timeText}>{task.timeEstimate}</Text>
                     </View>
                   </View>
-                </View>
-                <View style={styles.taskActions}>
+                </View><View style={styles.taskActions}>
                   <View style={[
                     styles.difficultyBadge,
                     { backgroundColor: getDifficultyColor(task.difficulty) }
                   ]}>
                     <Text style={styles.difficultyText}>{task.difficulty}</Text>
-                  </View>
-                  <TouchableOpacity
+                  </View><TouchableOpacity
                     style={styles.deleteButton}
                     onPress={() => deleteTask(task.id)}
                   >
