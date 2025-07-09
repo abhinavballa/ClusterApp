@@ -371,11 +371,14 @@ export default function TasksScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#F5F5F5',
   },
   header: {
+    backgroundColor: '#E8E1D9',
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#DADADA',
   },
   headerContent: {
     marginBottom: 16,
@@ -383,12 +386,13 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontFamily: 'Inter-Bold',
-    color: '#FFFFFF',
+    color: '#2C2C2C',
   },
   headerSubtitle: {
     fontSize: 16,
     fontFamily: 'Inter-Medium',
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: '#2C2C2C',
+    opacity: 0.7,
     marginTop: 4,
   },
   progressContainer: {
@@ -398,19 +402,19 @@ const styles = StyleSheet.create({
   progressBar: {
     flex: 1,
     height: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: '#DADADA',
     borderRadius: 4,
     marginRight: 12,
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#2C2C2C',
     borderRadius: 4,
   },
   progressText: {
     fontSize: 14,
     fontFamily: 'Inter-Bold',
-    color: '#FFFFFF',
+    color: '#2C2C2C',
   },
   scrollView: {
     flex: 1,
@@ -419,15 +423,12 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   taskCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#E8E1D9',
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    borderWidth: 1,
+    borderColor: '#DADADA',
   },
   taskHeader: {
     flexDirection: 'row',
@@ -443,12 +444,13 @@ const styles = StyleSheet.create({
   taskTitle: {
     fontSize: 16,
     fontFamily: 'Inter-SemiBold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     marginBottom: 8,
   },
   completedTask: {
     textDecorationLine: 'line-through',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.5,
   },
   taskMeta: {
     flexDirection: 'row',
@@ -462,7 +464,7 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 14,
     fontFamily: 'Inter-Medium',
-    color: '#8B5CF6',
+    color: '#2C2C2C',
     marginLeft: 4,
   },
   timeContainer: {
@@ -472,7 +474,8 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 14,
     fontFamily: 'Inter-Medium',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
     marginLeft: 4,
   },
   taskActions: {
@@ -487,7 +490,7 @@ const styles = StyleSheet.create({
   difficultyText: {
     fontSize: 12,
     fontFamily: 'Inter-Medium',
-    color: '#FFFFFF',
+    color: '#F5F5F5',
   },
   deleteButton: {
     padding: 4,
@@ -495,24 +498,25 @@ const styles = StyleSheet.create({
   taskDescription: {
     fontSize: 14,
     fontFamily: 'Inter-Regular',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
     marginTop: 8,
     marginLeft: 36,
     lineHeight: 20,
   },
   restrictionNotice: {
-    backgroundColor: '#FEF3C7',
+    backgroundColor: '#E8E1D9',
     marginHorizontal: 16,
     marginBottom: 16,
     padding: 16,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#F59E0B',
+    borderColor: '#DADADA',
   },
   restrictionText: {
     fontSize: 14,
     fontFamily: 'Inter-Medium',
-    color: '#D97706',
+    color: '#2C2C2C',
     textAlign: 'center',
   },
   addButton: {
@@ -522,22 +526,17 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#8B5CF6',
+    backgroundColor: '#2C2C2C',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
   },
   addButtonDisabled: {
-    backgroundColor: '#9CA3AF',
+    backgroundColor: '#DADADA',
     opacity: 0.6,
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F5F5F5',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -545,22 +544,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
+    borderBottomColor: '#DADADA',
+    backgroundColor: '#E8E1D9',
   },
   modalCancel: {
     fontSize: 16,
     fontFamily: 'Inter-Medium',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
   },
   modalTitle: {
     fontSize: 18,
     fontFamily: 'Inter-Bold',
-    color: '#1F2937',
+    color: '#2C2C2C',
   },
   modalSave: {
     fontSize: 16,
     fontFamily: 'Inter-Bold',
-    color: '#8B5CF6',
+    color: '#2C2C2C',
   },
   modalContent: {
     flex: 1,
@@ -572,17 +573,18 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 16,
     fontFamily: 'Inter-SemiBold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     marginBottom: 8,
   },
   textInput: {
     borderWidth: 1,
-    borderColor: '#D1D5DB',
+    borderColor: '#DADADA',
     borderRadius: 12,
     padding: 16,
     fontSize: 16,
     fontFamily: 'Inter-Regular',
-    color: '#1F2937',
+    color: '#2C2C2C',
+    backgroundColor: '#E8E1D9',
   },
   textArea: {
     height: 100,
@@ -596,21 +598,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#E8E1D9',
     borderWidth: 1,
-    borderColor: '#E5E7EB',
+    borderColor: '#DADADA',
   },
   categoryOptionSelected: {
-    backgroundColor: '#8B5CF6',
-    borderColor: '#8B5CF6',
+    backgroundColor: '#2C2C2C',
+    borderColor: '#2C2C2C',
   },
   categoryOptionText: {
     fontSize: 14,
     fontFamily: 'Inter-Medium',
-    color: '#6B7280',
+    color: '#2C2C2C',
   },
   categoryOptionTextSelected: {
-    color: '#FFFFFF',
+    color: '#F5F5F5',
   },
   difficultySelector: {
     flexDirection: 'row',
@@ -630,6 +632,6 @@ const styles = StyleSheet.create({
   difficultyOptionText: {
     fontSize: 14,
     fontFamily: 'Inter-Bold',
-    color: '#FFFFFF',
+    color: '#F5F5F5',
   },
 });

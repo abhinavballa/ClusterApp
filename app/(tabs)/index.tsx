@@ -296,28 +296,28 @@ export default function FeedScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#F5F5F5',
   },
   header: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#E8E1D9',
     paddingHorizontal: 20,
     paddingVertical: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
+    borderBottomColor: '#DADADA',
   },
   headerTitle: {
     fontSize: 28,
     fontFamily: 'Inter-Bold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     letterSpacing: -0.5,
   },
   streakContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#DADADA',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
   streakText: {
     fontSize: 14,
     fontFamily: 'Inter-SemiBold',
-    color: '#8B5CF6',
+    color: '#2C2C2C',
     marginLeft: 4,
   },
   scrollView: {
@@ -336,13 +336,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   postCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#E8E1D9',
     marginBottom: 16,
     borderRadius: 16,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#DADADA',
   },
   celebrationCard: {
-    backgroundColor: '#FEF3C7',
+    backgroundColor: '#E8E1D9',
     marginBottom: 16,
     borderRadius: 12,
     paddingHorizontal: 16,
@@ -350,10 +352,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#FDE68A',
+    borderColor: '#DADADA',
   },
   celebrationIcon: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F5F5F5',
     borderRadius: 16,
     padding: 8,
     marginRight: 12,
@@ -362,12 +364,12 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     fontFamily: 'Inter-Medium',
-    color: '#92400E',
+    color: '#2C2C2C',
     lineHeight: 20,
   },
   celebrationName: {
     fontFamily: 'Inter-SemiBold',
-    color: '#78350F',
+    color: '#2C2C2C',
   },
   postHeader: {
     flexDirection: 'row',
@@ -387,13 +389,14 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 14,
     fontFamily: 'Inter-SemiBold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     marginBottom: 2,
   },
   taskTitle: {
     fontSize: 12,
     fontFamily: 'Inter-Medium',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
   },
   difficultyDot: {
     width: 8,
@@ -411,14 +414,14 @@ const styles = StyleSheet.create({
   caption: {
     fontSize: 14,
     fontFamily: 'Inter-Regular',
-    color: '#374151',
+    color: '#2C2C2C',
     lineHeight: 20,
   },
   
   // Modal Styles
   modalContainer: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F5F5F5',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -427,12 +430,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
+    borderBottomColor: '#DADADA',
+    backgroundColor: '#E8E1D9',
   },
   modalTime: {
     fontSize: 14,
     fontFamily: 'Inter-Medium',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
   },
   modalContent: {
     flex: 1,
@@ -442,6 +447,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     paddingBottom: 16,
+    backgroundColor: '#E8E1D9',
   },
   modalAvatar: {
     width: 48,
@@ -455,13 +461,14 @@ const styles = StyleSheet.create({
   modalUserName: {
     fontSize: 18,
     fontFamily: 'Inter-Bold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     marginBottom: 2,
   },
   modalUsername: {
     fontSize: 14,
     fontFamily: 'Inter-Medium',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
     marginBottom: 8,
   },
   modalTaskRow: {
@@ -471,7 +478,7 @@ const styles = StyleSheet.create({
   modalTaskTitle: {
     fontSize: 14,
     fontFamily: 'Inter-SemiBold',
-    color: '#374151',
+    color: '#2C2C2C',
     marginRight: 12,
   },
   modalDifficultyBadge: {
@@ -482,7 +489,7 @@ const styles = StyleSheet.create({
   modalDifficultyText: {
     fontSize: 12,
     fontFamily: 'Inter-Medium',
-    color: '#FFFFFF',
+    color: '#F5F5F5',
   },
   modalImage: {
     width: '100%',
@@ -490,11 +497,12 @@ const styles = StyleSheet.create({
   },
   modalFooter: {
     padding: 20,
+    backgroundColor: '#F5F5F5',
   },
   modalCaption: {
     fontSize: 16,
     fontFamily: 'Inter-Regular',
-    color: '#374151',
+    color: '#2C2C2C',
     lineHeight: 24,
     marginBottom: 20,
   },
@@ -503,7 +511,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
+    borderBottomColor: '#DADADA',
     marginBottom: 20,
   },
   modalActionButton: {
@@ -514,11 +522,13 @@ const styles = StyleSheet.create({
   modalActionText: {
     fontSize: 16,
     fontFamily: 'Inter-SemiBold',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
     marginLeft: 8,
   },
   modalLikedText: {
     color: '#EF4444',
+    opacity: 1,
   },
   modalShareButton: {
     marginLeft: 'auto',
@@ -529,13 +539,14 @@ const styles = StyleSheet.create({
   commentsTitle: {
     fontSize: 18,
     fontFamily: 'Inter-Bold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     marginBottom: 16,
   },
   commentsPlaceholder: {
     fontSize: 14,
     fontFamily: 'Inter-Regular',
-    color: '#9CA3AF',
+    color: '#2C2C2C',
+    opacity: 0.5,
     textAlign: 'center',
     fontStyle: 'italic',
     paddingVertical: 20,

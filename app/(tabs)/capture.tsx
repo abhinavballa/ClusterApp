@@ -323,23 +323,24 @@ export default function CaptureScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#F5F5F5',
   },
   header: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#E8E1D9',
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
+    borderBottomColor: '#DADADA',
   },
   headerTitle: {
     fontSize: 24,
     fontFamily: 'Inter-Bold',
-    color: '#1F2937',
+    color: '#2C2C2C',
   },
   headerSubtitle: {
     fontSize: 16,
     fontFamily: 'Inter-Regular',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
     marginTop: 4,
   },
   scrollView: {
@@ -351,28 +352,26 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontFamily: 'Inter-Bold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     marginBottom: 8,
   },
   sectionSubtitle: {
     fontSize: 14,
     fontFamily: 'Inter-Regular',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
     marginBottom: 16,
     lineHeight: 20,
   },
   taskCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#E8E1D9',
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    borderWidth: 1,
+    borderColor: '#DADADA',
   },
   taskInfo: {
     flex: 1,
@@ -380,7 +379,7 @@ const styles = StyleSheet.create({
   taskTitle: {
     fontSize: 16,
     fontFamily: 'Inter-SemiBold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     marginBottom: 8,
   },
   taskMeta: {
@@ -391,7 +390,7 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 14,
     fontFamily: 'Inter-Medium',
-    color: '#8B5CF6',
+    color: '#2C2C2C',
   },
   difficultyBadge: {
     paddingHorizontal: 8,
@@ -401,29 +400,33 @@ const styles = StyleSheet.create({
   difficultyText: {
     fontSize: 12,
     fontFamily: 'Inter-Medium',
-    color: '#FFFFFF',
+    color: '#F5F5F5',
   },
   taskAction: {
     marginLeft: 12,
   },
   achievementsContainer: {
     padding: 20,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#E8E1D9',
     marginTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#DADADA',
   },
   achievementCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#F5F5F5',
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#DADADA',
   },
   achievementIcon: {
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#E8E1D9',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 16,
@@ -434,12 +437,13 @@ const styles = StyleSheet.create({
   achievementTitle: {
     fontSize: 16,
     fontFamily: 'Inter-SemiBold',
-    color: '#1F2937',
+    color: '#2C2C2C',
   },
   achievementText: {
     fontSize: 14,
     fontFamily: 'Inter-Regular',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
     marginTop: 2,
   },
   permissionContainer: {
@@ -451,7 +455,7 @@ const styles = StyleSheet.create({
   permissionTitle: {
     fontSize: 24,
     fontFamily: 'Inter-Bold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     textAlign: 'center',
     marginTop: 24,
     marginBottom: 16,
@@ -459,13 +463,14 @@ const styles = StyleSheet.create({
   permissionText: {
     fontSize: 16,
     fontFamily: 'Inter-Regular',
-    color: '#6B7280',
+    color: '#2C2C2C',
+    opacity: 0.7,
     textAlign: 'center',
     lineHeight: 24,
     marginBottom: 32,
   },
   permissionButton: {
-    backgroundColor: '#8B5CF6',
+    backgroundColor: '#2C2C2C',
     paddingHorizontal: 32,
     paddingVertical: 16,
     borderRadius: 12,
@@ -473,7 +478,7 @@ const styles = StyleSheet.create({
   permissionButtonText: {
     fontSize: 16,
     fontFamily: 'Inter-SemiBold',
-    color: '#FFFFFF',
+    color: '#F5F5F5',
   },
   cameraContainer: {
     flex: 1,
@@ -492,7 +497,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(44, 44, 44, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -505,8 +510,8 @@ const styles = StyleSheet.create({
   taskOverlayText: {
     fontSize: 16,
     fontFamily: 'Inter-SemiBold',
-    color: '#FFFFFF',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    color: '#F5F5F5',
+    backgroundColor: 'rgba(44, 44, 44, 0.7)',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
@@ -526,7 +531,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(44, 44, 44, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -534,7 +539,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -542,11 +547,11 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#8B5CF6',
+    backgroundColor: '#2C2C2C',
   },
   previewContainer: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F5F5F5',
   },
   previewHeader: {
     flexDirection: 'row',
@@ -554,20 +559,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
+    borderBottomColor: '#DADADA',
+    backgroundColor: '#E8E1D9',
   },
   previewTitle: {
     fontSize: 18,
     fontFamily: 'Inter-Bold',
-    color: '#1F2937',
+    color: '#2C2C2C',
   },
   shareButton: {
     fontSize: 16,
     fontFamily: 'Inter-Bold',
-    color: '#8B5CF6',
+    color: '#2C2C2C',
   },
   shareButtonDisabled: {
-    color: '#9CA3AF',
+    color: '#DADADA',
   },
   previewContent: {
     flex: 1,
@@ -579,12 +585,13 @@ const styles = StyleSheet.create({
   taskPreview: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
+    borderBottomColor: '#DADADA',
+    backgroundColor: '#E8E1D9',
   },
   taskPreviewTitle: {
     fontSize: 20,
     fontFamily: 'Inter-Bold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     marginBottom: 8,
   },
   taskPreviewMeta: {
@@ -598,18 +605,19 @@ const styles = StyleSheet.create({
   captionLabel: {
     fontSize: 16,
     fontFamily: 'Inter-SemiBold',
-    color: '#1F2937',
+    color: '#2C2C2C',
     marginBottom: 8,
   },
   captionInput: {
     borderWidth: 1,
-    borderColor: '#D1D5DB',
+    borderColor: '#DADADA',
     borderRadius: 12,
     padding: 16,
     fontSize: 16,
     fontFamily: 'Inter-Regular',
-    color: '#1F2937',
+    color: '#2C2C2C',
     minHeight: 100,
     textAlignVertical: 'top',
+    backgroundColor: '#E8E1D9',
   },
 });
